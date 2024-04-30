@@ -1,5 +1,6 @@
 // backend/utils/socketUtils.js
 const socketIo = require('socket.io');
+const Message = require('../models/message');
 
 const configureSocketIO = (server, port) => {
   const io = socketIo(server, {
@@ -12,8 +13,10 @@ const configureSocketIO = (server, port) => {
     console.log('New client connected');
 
     // Handle incoming messages
-    socket.on('message', (message) => {
+    socket.on('message', async (message) => {
       // Broadcast the message to all connected clients
+      const newMessage = new Message(message);
+      await newMessage.save();
       io.emit('message', message);
     });
 

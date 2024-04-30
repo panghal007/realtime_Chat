@@ -1,16 +1,19 @@
 // frontend/src/components/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:5000/api/users/signup', { email, password });
       console.log(response.data); // Assuming the server sends back a success message
+      navigate('/login');
       // Redirect or perform additional actions upon successful registration
     } catch (error) {
       console.error(error.response.data);

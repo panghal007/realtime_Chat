@@ -4,6 +4,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 const { JWT_SECRET } = require("../config");
+const Message = require('../models/message');
+
 
 // User registration
 const signup = async (req, res) => {
@@ -41,8 +43,93 @@ const login = async (req, res) =>{
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
+
 };
-module.exports = {
+
+// Fetch user by ID
+const getUserById = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // Fetch user by email
+  const getUserByEmail = async (req, res) => {
+    try {
+      const userEmail = req.params.email;
+      const user = await User.findOne({ email: userEmail });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // Update user information
+  const updateUser = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const updates = req.body;
+      const updatedUser = await User.findByIdAndUpdate(userId, updates, { new: true });
+      res.json(updatedUser);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  
+  // Delete user account
+  const deleteUser = async (req, res) => {
+    try {
+      const userId = req.params.id;
+      await User.findByIdAndDelete(userId);
+      res.json({ message: "User deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  const getUser = async (req, res) => {
+    try {
+      
+      const user =await User.find({});
+      res.json(user);
+    }
+    catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal server error" });
+    }
+  };
+  const getMessages = async (req, res) => {
+    const { senderId, recipientId } = req.params;
+    const messages = await Message.find({
+    $or: [
+      { sender: senderId, recipient: recipientId },
+      { sender: recipientId, recipient: senderId }
+    ]
+  });
+  res.json(messages);
+};
+
+  module.exports = {
     signup,
     login,
+    getUserById,
+    getUserByEmail,
+    updateUser,
+    deleteUser, 
+    getUser,
+    getMessages,
+
   };
