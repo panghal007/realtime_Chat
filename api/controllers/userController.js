@@ -121,6 +121,32 @@ const getUserById = async (req, res) => {
   });
   res.json(messages);
 };
+const getUserStatus = async (req, res) => { 
+    try {
+        const userId = req.params.userId;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        res.json( user.status );
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
+const updateUserStatus = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const status = req.body.status;
+        await User.findByIdAndUpdate(userId, { status });
+        res.json({ message: 'User status updated successfully' });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};
 
   module.exports = {
     signup,
@@ -131,5 +157,7 @@ const getUserById = async (req, res) => {
     deleteUser, 
     getUser,
     getMessages,
+    getUserStatus,
+    updateUserStatus,
 
   };
