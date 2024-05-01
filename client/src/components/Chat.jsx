@@ -1,58 +1,64 @@
 // frontend/src/components/Chat.js
-import { useEffect, useState } from 'react';
-import io from 'socket.io-client';
+import { useEffect, useState } from "react";
+import io from "socket.io-client";
 import { jwtDecode } from "jwt-decode";
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
-
+import "./Chat.css";
 const Chat = () => {
   const [socket, setSocket] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [messageInput, setMessageInput] = useState('');
+  const [messageInput, setMessageInput] = useState("");
   const { recipientId } = useParams();
-  const [recipientStatus, setRecipientStatus] = useState('AVAILABLE');
-  const [chat, setChat] = useState(null); 
-  const [userStatus, setUserStatus] = useState('AVAILABLE'); // New state variable for user status
+  const [recipientStatus, setRecipientStatus] = useState("AVAILABLE");
+  const [chat, setChat] = useState(null);
+  const [userStatus, setUserStatus] = useState("AVAILABLE"); // New state variable for user status
 
+  const token = localStorage.getItem('token'); // Retrieve JWT token from local storage
+const decodedToken = jwtDecode(token); // Decode JWT token
+const userId = decodedToken.userId; 
   // const [msg, setMsg] = useState(null);
   useEffect(() => {
     const fetchRecipientStatus = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (token) {
-        const response = await fetch(`http://localhost:5001/api/users/${recipientId}/status`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await fetch(
+          `http://localhost:5001/api/users/${recipientId}/status`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        });
+        );
         if (response.ok) {
           const status = await response.json();
           setRecipientStatus(status);
         } else {
-          setRecipientStatus('BUSY');
+          setRecipientStatus("BUSY");
         }
       } else {
-        setRecipientStatus('BUSY');
+        setRecipientStatus("BUSY");
       }
     };
 
     fetchRecipientStatus();
-      // Fetch the recipient's status every 5 seconds
-  const intervalId = setInterval(fetchRecipientStatus, 10000);
+    // Fetch the recipient's status every 5 seconds
+    const intervalId = setInterval(fetchRecipientStatus, 10000);
 
-  // Cleanup function
-  return () => {
-    clearInterval(intervalId);
-  };
+    // Cleanup function
+    return () => {
+      clearInterval(intervalId);
+    };
   }, [recipientId]);
-
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const decodedToken = jwtDecode(token);
       const senderId = decodedToken.userId;
-      const response = await fetch(`http://localhost:5000/api/users/messages/${senderId}/${recipientId}`);
+      const response = await fetch(
+        `http://localhost:5000/api/users/messages/${senderId}/${recipientId}`
+      );
       const messages = await response.json();
       setMessages(messages);
     };
@@ -61,8 +67,12 @@ const Chat = () => {
   }, [recipientId]);
 
   useEffect(() => {
-    const newSocket = io('http://localhost:5001');
+    const newSocket = io("http://localhost:5001");
     setSocket(newSocket);
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken.userId;
+    newSocket.emit("userConnected", userId);
 
     return () => newSocket.close();
   }, []);
@@ -70,14 +80,46 @@ const Chat = () => {
   useEffect(() => {
     if (socket) {
       const messageListener = (message) => {
-        setMessages(prevMessages => [...prevMessages, message]);
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.userId;
+        const otherUserId = recipientId;
+
+        // Check if the message is for the current conversation
+        if (
+          (message.sender === userId && message.recipient === otherUserId) ||
+          (message.sender === otherUserId && message.recipient === userId)
+        ) {
+          setMessages((prevMessages) => [...prevMessages, message]);
+
+          // Store the message in the database
+          const storeMessage = async () => {
+            const token = localStorage.getItem("token");
+            const response = await fetch(
+              "http://localhost:5000/api/users/messages",
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify(message),
+              }
+            );
+            if (!response.ok) {
+              console.error("Failed to store message");
+            }
+          };
+
+          storeMessage();
+        }
       };
 
-      socket.on('message', messageListener);
+      socket.on("message", messageListener);
 
       // Cleanup function
       return () => {
-        socket.off('message', messageListener);
+        socket.off("message", messageListener);
       };
     }
   }, [socket]);
@@ -86,64 +128,87 @@ const Chat = () => {
     setUserStatus(e.target.value);
 
     // Update user status in the backend
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
     const userId = decodedToken.userId;
 
     await fetch(`http://localhost:5001/api/users/${userId}/status`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ status: e.target.value })
+      body: JSON.stringify({ status: e.target.value }),
     });
   };
 
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
-    if (messageInput.trim() === '') return;
-    const token = localStorage.getItem('token'); // Retrieve JWT token from local storage
+    const trimmedMessageInput = messageInput.trim();
+    if (trimmedMessageInput === "") return;
+    const token = localStorage.getItem("token"); // Retrieve JWT token from local storage
     const decodedToken = jwtDecode(token); // Decode JWT token
     const senderUserId = decodedToken.userId; // Extract user ID from decoded token
     const messageData = {
-      content: messageInput,
+      content: trimmedMessageInput,
       sender: senderUserId, // Include sender's user ID
-      recipient: recipientId  // Include recipient's user ID (if applicable)
+      recipient: recipientId, // Include recipient's user ID (if applicable)
     };
+    setMessages((prevMessages) => [...prevMessages, messageData]);
+
+    const response = await fetch('http://localhost:5000/api/users/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(messageData)
+    });
+    if (!response.ok) {
+      console.error('Failed to store message');
+    }
   
-    if (recipientStatus === 'BUSY') {
+    if (recipientStatus === "BUSY") {
       // Initialize the GoogleGenerativeAI
-      const genAI = new GoogleGenerativeAI('AIzaSyAr2inA2m7LQrygx8kfa-9uIKhUKlN9f-c');
-      const model = genAI.getGenerativeModel({ model: "gemini-pro"});
-  
+      const genAI = new GoogleGenerativeAI(
+        "AIzaSyAr2inA2m7LQrygx8kfa-9uIKhUKlN9f-c"
+      );
+      const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+
       // Start a new chat or continue the existing chat
-      if (!chat) {
-        const newChat = await model.startChat({
+      let currentChat = chat;
+      if (!currentChat) {
+        currentChat = await model.startChat({
           history: [],
           generationConfig: {
             maxOutputTokens: 100,
           },
         });
-        setChat(newChat);
+        setChat(currentChat);
       }
-  
+
       // Generate a response using the GoogleGenerativeAI
-      const result = await chat.sendMessage(messageInput);
+      const result = await currentChat.sendMessage(trimmedMessageInput);
       const response = await result.response;
       const autoResponse = response.text();
-  
-      socket.emit('message', { content: autoResponse, sender: recipientId, recipient: senderUserId });
+
+      socket.emit("message", {
+        content: autoResponse,
+        sender: recipientId,
+        recipient: senderUserId,
+      });
     } else {
-      socket.emit('message', messageData);
+      socket.emit("message", messageData);
     }
-  
-    setMessageInput('');
+
+    setMessageInput("");
   };
-  
 
   return (
     <div>
+      <div className="navbar">
+      <h2>Chatting with: {recipientId}</h2>
+    </div>
       <select value={userStatus} onChange={handleStatusChange}>
         <option value="AVAILABLE">AVAILABLE</option>
         <option value="BUSY">BUSY</option>
@@ -151,22 +216,29 @@ const Chat = () => {
       <h2>Chat</h2>
       <div>
         {messages.map((msg, index) => (
-          <div key={index}>
+          <div
+            key={index}
+            className={
+              msg.sender === userId ? "message-sent" : "message-received"
+            }
+          >
             <p>{msg.content}</p>
             <p>From: {msg.sender}</p>
           </div>
         ))}
       </div>
-      <form onSubmit={handleMessageSubmit}>
-        <input type="text" value={messageInput} onChange={(e) => setMessageInput(e.target.value)} />
-        <button type="submit">Send</button>
-      </form>
+      <form className="message-form" onSubmit={handleMessageSubmit}>
+      <input
+        type="text"
+        value={messageInput}
+        onChange={(e) => setMessageInput(e.target.value)}
+      />
+      <button type="submit">Send</button>
+    </form>
     </div>
   );
 };
 
 export default Chat;
-
-
 
 //AIzaSyAr2inA2m7LQrygx8kfa-9uIKhUKlN9f-c

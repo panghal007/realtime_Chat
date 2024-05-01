@@ -9,20 +9,42 @@ const configureSocketIO = (server, port) => {
     },
   });
 
+  // io.on('connection', (socket) => {
+  //   console.log('New client connected');
+
+  //   // Handle incoming messages
+  //   socket.on('message', async (message) => {
+  //     // Broadcast the message to all connected clients
+  //     const newMessage = new Message(message);
+  //     await newMessage.save();
+  //     io.emit('message', message);
+  //   });
+
+  //   // Handle disconnection
+  //   socket.on('disconnect', () => {
+  //     console.log('Client disconnected');
+  //   });
+  // });
+  let userSocketMap = new Map();
   io.on('connection', (socket) => {
-    console.log('New client connected');
-
-    // Handle incoming messages
-    socket.on('message', async (message) => {
-      // Broadcast the message to all connected clients
-      const newMessage = new Message(message);
-      await newMessage.save();
-      io.emit('message', message);
+    socket.on('userConnected', (userId) => {
+      userSocketMap.set(userId, socket.id);
     });
-
-    // Handle disconnection
+  
+    socket.on('message', (messageData) => {
+      const recipientSocketId = userSocketMap.get(messageData.recipient);
+      if (recipientSocketId) {
+        io.to(recipientSocketId).emit('message', messageData);
+      }
+    });
+  
     socket.on('disconnect', () => {
-      console.log('Client disconnected');
+      for (let [userId, socketId] of userSocketMap.entries()) {
+        if (socketId === socket.id) {
+          userSocketMap.delete(userId);
+          break;
+        }
+      }
     });
   });
 

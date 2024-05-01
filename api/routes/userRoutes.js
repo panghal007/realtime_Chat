@@ -12,4 +12,5 @@ router.get('/getusers', userController.getUser);
 router.get('/messages/:senderId/:recipientId', userController.getMessages);
 router.get('/:userId/status', userController.getUserStatus);
 router.put('/:userId/status', userController.updateUserStatus);
+router.post('/messages', userController.storeMessage);
 module.exports = router;

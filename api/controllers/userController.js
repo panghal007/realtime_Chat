@@ -147,6 +147,17 @@ const updateUserStatus = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+const storeMessage = async (req, res) => {
+  try {
+    const { content, sender, recipient } = req.body;
+    const message = new Message({ content, sender, recipient });
+    await message.save();
+    res.status(201).json({ message: 'Message stored successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
   module.exports = {
     signup,
@@ -159,5 +170,6 @@ const updateUserStatus = async (req, res) => {
     getMessages,
     getUserStatus,
     updateUserStatus,
+    storeMessage,
 
   };
