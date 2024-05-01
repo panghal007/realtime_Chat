@@ -37,8 +37,8 @@ const login = async (req, res) =>{
     if (!validPassword) {
       return res.status(401).json({ message: "Invalid password" });
     } // Generate JWT token
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET);
-    res.json({ token });
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET); 
+    res.json({ token }); 
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server error" });
@@ -100,6 +100,8 @@ const getUserById = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
+
+  // Fetch all users
   const getUser = async (req, res) => {
     try {
       
@@ -111,7 +113,9 @@ const getUserById = async (req, res) => {
       res.status(500).json({ message: "Internal server error" });
     }
   };
-  const getMessages = async (req, res) => {
+
+  // Fetch messages between two users
+  const getMessages = async (req, res) => { 
     const { senderId, recipientId } = req.params;
     const messages = await Message.find({
     $or: [
@@ -121,6 +125,8 @@ const getUserById = async (req, res) => {
   });
   res.json(messages);
 };
+
+// Fetch user status
 const getUserStatus = async (req, res) => { 
     try {
         const userId = req.params.userId;
@@ -135,6 +141,8 @@ const getUserStatus = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Update user status
 const updateUserStatus = async (req, res) => {
     try {
         const userId = req.params.userId;
@@ -147,6 +155,8 @@ const updateUserStatus = async (req, res) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 };
+
+// Store chat message
 const storeMessage = async (req, res) => {
   try {
     const { content, sender, recipient } = req.body;

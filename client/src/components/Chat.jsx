@@ -5,19 +5,29 @@ import { jwtDecode } from "jwt-decode";
 import { useParams } from "react-router-dom";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import "./Chat.css";
-const Chat = () => {
-  const [socket, setSocket] = useState(null);
-  const [messages, setMessages] = useState([]);
-  const [messageInput, setMessageInput] = useState("");
-  const { recipientId } = useParams();
-  const [recipientStatus, setRecipientStatus] = useState("AVAILABLE");
-  const [chat, setChat] = useState(null);
-  const [userStatus, setUserStatus] = useState("AVAILABLE"); // New state variable for user status
+import dotenv from 'dotenv';
 
-  const token = localStorage.getItem('token'); // Retrieve JWT token from local storage
-const decodedToken = jwtDecode(token); // Decode JWT token
-const userId = decodedToken.userId; 
-  // const [msg, setMsg] = useState(null);
+
+const Chat = () => {
+   // State variables
+   
+   const [socket, setSocket] = useState(null);
+   const [messages, setMessages] = useState([]);
+   const [messageInput, setMessageInput] = useState("");
+   const [recipientStatus, setRecipientStatus] = useState("AVAILABLE");
+   const [chat, setChat] = useState(null);
+   const [userStatus, setUserStatus] = useState("AVAILABLE");
+ 
+   // Extract recipientId from the URL parameters
+   const { recipientId } = useParams();
+ 
+   // Retrieve JWT token from local storage and decode it to get the userId
+   const token = localStorage.getItem('token');
+   const email=localStorage.getItem('email');
+   const decodedToken = jwtDecode(token);
+   const userId = decodedToken.userId;
+ 
+  // Fetch the recipient's status
   useEffect(() => {
     const fetchRecipientStatus = async () => {
       const token = localStorage.getItem("token");
@@ -49,8 +59,9 @@ const userId = decodedToken.userId;
     return () => {
       clearInterval(intervalId);
     };
-  }, [recipientId]);
+  }, [recipientId, token]);
 
+  // Fetch messages between the current user and the recipient
   useEffect(() => {
     const fetchMessages = async () => {
       const token = localStorage.getItem("token");
@@ -66,6 +77,7 @@ const userId = decodedToken.userId;
     fetchMessages();
   }, [recipientId]);
 
+  // Initialize the socket connection
   useEffect(() => {
     const newSocket = io("http://localhost:5001");
     setSocket(newSocket);
@@ -77,6 +89,7 @@ const userId = decodedToken.userId;
     return () => newSocket.close();
   }, []);
 
+  // Listen for incoming messages and store them in database
   useEffect(() => {
     if (socket) {
       const messageListener = (message) => {
@@ -124,6 +137,7 @@ const userId = decodedToken.userId;
     }
   }, [socket]);
 
+  // Update user status
   const handleStatusChange = async (e) => {
     setUserStatus(e.target.value);
 
@@ -142,6 +156,7 @@ const userId = decodedToken.userId;
     });
   };
 
+  // Handle message submission
   const handleMessageSubmit = async (e) => {
     e.preventDefault();
     const trimmedMessageInput = messageInput.trim();
@@ -171,7 +186,7 @@ const userId = decodedToken.userId;
     if (recipientStatus === "BUSY") {
       // Initialize the GoogleGenerativeAI
       const genAI = new GoogleGenerativeAI(
-        "AIzaSyAr2inA2m7LQrygx8kfa-9uIKhUKlN9f-c"
+        process.env.REACT_APP_GOOGLE_AI_KEY  // API key
       );
       const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 

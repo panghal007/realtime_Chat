@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import { useNavigate } from 'react-router-dom'; 
+import './Login.css'; 
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -16,6 +17,7 @@ const Login = () => {
       const response = await axios.post('http://localhost:5000/api/users/login', { email, password });
       const { token } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('email', email);
       console.log(response.data); // Assuming the server sends back a JWT token
       navigate('/chat');
       // Redirect or perform additional actions upon successful login
@@ -26,9 +28,9 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="login-form">
         <div>
           <label>Email:</label>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />

@@ -1,0 +1,856 @@
+{
+	"info": {
+		"_postman_id": "39ba5ba9-909a-4654-a041-eb6000e928df",
+		"name": "RealTime Chat App all API's",
+		"description": "Unique Panghal (20ucc125)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34640550"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/api/users/signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"securepassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				},
+				"description": "Try Register already registered User"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/signup",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"securepassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "33"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"21-iGErLku/9taeeOQN+9qwFgLXnuo\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:50:07 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User already exists\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/users/signup",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"user1@example.com\",\r\n  \"password\": \"securepassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"signup"
+					]
+				},
+				"description": "Register new user"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/signup",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user1@example.com\",\r\n  \"password\": \"securepassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"signup"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "42"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2a-nMoFx54+czTntmSLXl3mqIsZV4A\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:48:19 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User registered successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/users/login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"securepassword\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"login"
+					]
+				},
+				"description": "Login User"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"user@example.com\",\r\n  \"password\": \"securepassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "165"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"a5-JLlBho9AJRpCychHq8VQyO9NmDA\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:48:54 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjMyMGM0ODkzZDBjNjA2YTEwNDFjNWEiLCJpYXQiOjE3MTQ1NTY5MzR9.VlCemU1__N25yoDOoEwC-UF_xcMgNqgGNLkNMLN1kI8\"\n}"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/users/getusers",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/getusers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"getusers"
+					]
+				},
+				"description": "Get all Users"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/getusers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/getusers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"getusers"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "981"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"3d5-bVg1a5BnNHM306IJMKx1ljZWh64\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:51:25 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"6630dfd9b419ac19a9a470b6\",\n        \"email\": \"test50@gmail.com\",\n        \"password\": \"$2b$10$.bhBJK8lpo9RHkJS91VPQe1WUTVaLwa.1IU8sx0bZapSC8rHpDnJ6\",\n        \"__v\": 0,\n        \"status\": \"busy\"\n    },\n    {\n        \"_id\": \"6630f3cd88e73398b4b846cc\",\n        \"email\": \"test13@gmail.com\",\n        \"password\": \"$2b$10$Nqnl5mKs5D41YCmAhNGZveGKU2CLWQJoXB.ddXRIHprzNCABsC9YW\",\n        \"__v\": 0,\n        \"status\": \"BUSY\"\n    },\n    {\n        \"_id\": \"6630f3ed88e73398b4b846d0\",\n        \"email\": \"test14@gmail.com\",\n        \"password\": \"$2b$10$3eHV7zfATggdYaWFsULtw.6zodlVKNrJk.BkCwU2PzU7qAeNiR.Dq\",\n        \"__v\": 0,\n        \"status\": \"AVAILABLE\"\n    },\n    {\n        \"_id\": \"6630ffd888e73398b4b846d7\",\n        \"email\": \"test2@gmail.com\",\n        \"password\": \"$2b$10$auJMR/TsgRRo0SWcrmZ8euCZIU5oxioGxKYJsDyQhkKPt6D51p0Iq\",\n        \"__v\": 0,\n        \"status\": \"AVAILABLE\"\n    },\n    {\n        \"_id\": \"66320c4893d0c606a1041c5a\",\n        \"email\": \"user@example.com\",\n        \"password\": \"$2b$10$nMRx9IxeOLpwZEBjELdobOA3fZGnNUBaqYiHRDYkb2T.uHF6/dNVe\",\n        \"status\": \"AVAILABLE\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"66320fe3b2124e0ba91da88b\",\n        \"email\": \"user1@example.com\",\n        \"password\": \"$2b$10$//HZX4GcyjQMLNHxKbXyseLrkUK52WQ7T3luYieKHEHlX0/KfAB7m\",\n        \"status\": \"AVAILABLE\",\n        \"__v\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"6630dfd9b419ac19a9a470b6",
+						"status"
+					]
+				},
+				"description": "Get Status of a particular User"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"6630dfd9b419ac19a9a470b6",
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "6"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"6-uO+qZps7ywM+i6LAZi+D45PfiO4\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:51:53 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "\"busy\""
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/users/messages/6630dfd9b419ac19a9a470b6/6630f3cd88e73398b4b846cc",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/messages/6630dfd9b419ac19a9a470b6/6630f3cd88e73398b4b846cc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"messages",
+						"6630dfd9b419ac19a9a470b6",
+						"6630f3cd88e73398b4b846cc"
+					]
+				},
+				"description": "Get all messages between 2 particular users"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/messages/6630dfd9b419ac19a9a470b6/6630f3cd88e73398b4b846cc",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/messages/6630dfd9b419ac19a9a470b6/6630f3cd88e73398b4b846cc",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"messages",
+								"6630dfd9b419ac19a9a470b6",
+								"6630f3cd88e73398b4b846cc"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "889"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"379-d5R4NDqJKVCXOfJgoKE0pSGNDNk\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:52:24 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"_id\": \"66310da66a2cefc0ea86e277\",\n        \"sender\": \"6630dfd9b419ac19a9a470b6\",\n        \"recipient\": \"6630f3cd88e73398b4b846cc\",\n        \"content\": \"hi i am 50\",\n        \"timestamp\": \"2024-04-30T15:26:30.444Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"66310de56a2cefc0ea86e279\",\n        \"sender\": \"6630f3cd88e73398b4b846cc\",\n        \"recipient\": \"6630dfd9b419ac19a9a470b6\",\n        \"content\": \"hi iam 13\",\n        \"timestamp\": \"2024-04-30T15:27:33.329Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"6631139c4f263b5790b08a96\",\n        \"sender\": \"6630f3cd88e73398b4b846cc\",\n        \"recipient\": \"6630dfd9b419ac19a9a470b6\",\n        \"content\": \"ok\",\n        \"timestamp\": \"2024-04-30T15:51:56.228Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"663113a14f263b5790b08a98\",\n        \"sender\": \"6630dfd9b419ac19a9a470b6\",\n        \"recipient\": \"6630f3cd88e73398b4b846cc\",\n        \"content\": \"hahah\",\n        \"timestamp\": \"2024-04-30T15:52:01.762Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"66320d9ab2124e0ba91da860\",\n        \"sender\": \"6630dfd9b419ac19a9a470b6\",\n        \"recipient\": \"6630f3cd88e73398b4b846cc\",\n        \"content\": \"Hello, world\",\n        \"timestamp\": \"2024-05-01T09:38:34.969Z\",\n        \"__v\": 0\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"status\": \"busy\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"api",
+						"users",
+						"6630dfd9b419ac19a9a470b6",
+						"status"
+					]
+				},
+				"description": "Update status of a Particular User"
+			},
+			"response": [
+				{
+					"name": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\": \"busy\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/users/6630dfd9b419ac19a9a470b6/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"users",
+								"6630dfd9b419ac19a9a470b6",
+								"status"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"2e-rGYS8NTDNa94O4BtJnxsmQsfzqk\""
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 01 May 2024 09:53:21 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"User status updated successfully\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}

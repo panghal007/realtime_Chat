@@ -3,12 +3,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const http = require('http'); // Import http module
+const http = require('http');
 
-const { configureSocketIO } = require('./utils/socketUtils'); // Import socketUtils
+const { configureSocketIO } = require('./utils/socketUtils'); // Import the configureSocketIO function
 
 const userRoutes = require('./routes/userRoutes');
-const { MONGODB_URI } = require('./config');
+const { MONGODB_URI } = require('./config'); // Import the MongoDB URI
 // Load environment variables
 require('dotenv').config();
 
